@@ -1,0 +1,48 @@
+group.all_automations:
+  hidden: false
+  friendly_name: All Automations
+group.all_scripts:
+  hidden: false
+  friendly_name: All Scripts
+light.sun_room_dimmer_level:
+  friendly_name: Sun Room Dimmer
+  icon: mdi:lightbulb
+light.dining_dimmer_level:
+  friendly_name: Dining Dimmer
+  icon: mdi:lightbulb
+switch.living_room_lamps_switch:
+  friendly_name: Living Room Lamps
+  icon: mdi:lightbulb
+switch.backyard_lights_switch:
+  friendly_name: Backyard Lights
+  icon: mdi:lightbulb
+switch.outside_front_lights_switch:
+  friendly_name: Outside Front Lights
+  icon: mdi:lightbulb
+switch.car_port_lights_switch:
+  friendly_name: Car Port Lights
+  icon: mdi:lightbulb
+sensor.pws_weather_1d:
+  friendly_name: Summary
+sensor.pws_temp_f:
+  friendly_name: Current temperature
+sensor.pws_feelslike_f:
+  friendly_name: Feels like
+sensor.pws_temp_high_1d_f:
+  friendly_name: High today
+sensor.pws_temp_low_1d_f:
+  friendly_name: Low today
+sensor.pws_temp_high_record_f:
+  friendly_name: Record high today
+sensor.pws_temp_low_record_f:
+  friendly_name: Record low today
+switch.hdmi_0:
+  friendly_name: Living Room TV
+switch.hdmi_3:
+  friendly_name: Living Room Receiver
+switch.hdmi_4:
+  friendly_name: Nintendo Switch
+switch.hdmi_5:
+  friendly_name: Living Room Receiver
+switch.hdmi_8:
+  friendly_name: Living Room MiBox

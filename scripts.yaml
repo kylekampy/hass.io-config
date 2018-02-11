@@ -1,0 +1,19 @@
+sun_room_music:
+  alias: Sun Room Play Music
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.sun_room_speakers_switch
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.spotify
+        source: Sun Room Dot
+    - service: media_player.play_media
+      data_template:
+        entity_id: media_player.spotify
+        media_content_id: spotify:user:spotify:playlist:37i9dQZEVXbk9lskgkVUoy
+        media_content_type: playlist
+    - service: media_player.shuffle_set
+      data_template:
+        entity_id: media_player.spotify
+        shuffle: true
+

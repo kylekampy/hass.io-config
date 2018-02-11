@@ -1,0 +1,209 @@
+########################
+## LIVING ROOM LIGHTS ##
+########################
+- alias: Turn on living room lights
+  hide_entity: true
+  trigger:
+    - platform: event
+      event_type: LIVING_ROOM_LIGHTS_ON
+  action:
+    - service: switch.turn_on
+      entity_id: switch.living_room_lamps_switch
+    - service: light.turn_on
+      entity_id: light.dining_dimmer_level
+
+- alias: Turn off living room lights
+  hide_entity: true
+  trigger:
+    - platform: event
+      event_type: LIVING_ROOM_LIGHTS_OFF
+  action:
+    - service: switch.turn_off
+      entity_id: switch.living_room_lamps_switch
+    - service: light.turn_off
+      entity_id: light.dining_dimmer_level
+########################
+
+####################
+## MORNING LIGHTS ##
+####################
+- alias: Morning lights
+  trigger:
+    - platform: state
+      entity_id: group.living_areas_motion
+      to: "on"
+  condition:
+    - condition: time
+      after: "05:00:00"
+    - condition: sun
+      before: sunrise
+    - condition: state
+      entity_id: switch.living_room_lamps_switch
+      state: "off"
+  action:
+    - service: automation.trigger
+      entity_id: automation.turn_on_living_room_lights
+####################
+
+#####################
+## SUN ROOM MOTION ##
+#####################
+- alias: Sun room motion lights
+  trigger:
+    platform: state
+    entity_id: binary_sensor.sun_room_motion
+    to: 'on'
+  condition:
+    - condition: state
+      entity_id: light.sun_room_dimmer_level
+      state: "off"
+    - condition: or
+      conditions:
+        - condition: sun
+          before: sunrise
+        - condition: sun
+          after: sunset
+  action:
+    service: light.turn_on
+    entity_id: light.sun_room_dimmer_level
+
+- alias: End sun room motion lights
+  trigger:
+    platform: state
+    entity_id: binary_sensor.sun_room_motion
+    to: "off"
+    for:
+      minutes: 5
+  condition:
+    - condition: state
+      entity_id: light.sun_room_dimmer_level
+      state: "on"
+  action:
+    service: light.turn_off
+    entity_id: light.sun_room_dimmer_level
+#####################
+
+######################
+## BACKYARD LIGHTS ##
+######################
+- alias: Turn off left on backyard lights
+  trigger:
+    platform: state
+    entity_id: binary_sensor.sun_room_door
+    to: "off"
+    for:
+      minutes: 10
+  condition:
+    - condition: state
+      entity_id: switch.backyard_lights_switch
+      state: "on"
+  action:
+    service: light.turn_off
+    entity_id: switch.backyard_lights_switch
+
+- alias: Turn on backyard lights for door
+  trigger:
+    platform: state
+    entity_id: binary_sensor.sun_room_door
+    to: "on"
+  condition:
+    - condition: or
+      conditions:
+        - condition: sun
+          before: sunrise
+        - condition: sun
+          after: sunset
+  action:
+    service: switch.turn_on
+    entity_id: switch.backyard_lights_switch
+#######################
+
+##############################################
+## OUTSIDE FRONT LIGHTS FROM SUNSET TO 11PM ##
+##############################################
+- alias: Sunset outside front lights
+  trigger:
+    - platform: sun
+      event: sunset
+  action:
+    - service: switch.turn_on
+      entity_id: switch.outside_front_lights_switch
+
+- alias: End Sunset Outside Front Lights
+  trigger:
+    - platform: time
+      at: "23:00:00"
+  action:
+    - service: switch.turn_off
+      entity_id: switch.outside_front_lights_switch
+##############################################
+
+######################################
+## LIGHTS ON WHEN ARRIVING AT NIGHT ##
+######################################
+- alias: Lights on when arriving (connected)
+  trigger:
+    - platform: state
+      entity_id: group.my_devices
+      to: "home"
+  condition:
+    - condition: sun
+      after: sunset
+  action:
+    - service: automation.trigger
+      entity_id: automation.turn_on_living_room_lights
+
+- alias: Lights on when arriving (door)
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.garage_door
+      to: "on"
+  condition:
+    - condition: sun
+      after: sunset
+    - condition: state
+      entity_id: group.my_devices
+      state: "away"
+  action:
+    - service: automation.trigger
+      entity_id: automation.turn_on_living_room_lights
+
+######################################
+
+######################################
+## LIGTHS ON WHEN HOME NEAR SUNSET ##
+######################################
+- alias: Sunset lamps on when home
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-00:30:00"
+  condition:
+    - condition: state
+      entity_id: group.my_devices
+      state: "home"
+    - condition: state
+      entity_id: group.living_areas_motion
+      state: "on"
+  action:
+    - service: switch.turn_on
+      entity_id: switch.living_room_lamps_switch
+
+- alias: Sunset lamps on when home
+  trigger:
+    - platform: sun
+      event: sunset
+  condition:
+    - condition: state
+      entity_id: group.my_devices
+      state: "home"
+    - condition: state
+      entity_id: group.living_areas_motion
+      state: "on"
+  action:
+    - service: switch.turn_on
+      entity_id: switch.living_room_lamps_switch
+    - service: light.turn_on
+      entity_id: light.dining_room_dimmer
+
+######################################

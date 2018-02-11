@@ -1,0 +1,164 @@
+############
+## GROUPS ##
+############
+weather_overview:
+  name: Weather Overview
+  control: hidden
+  entities:
+    - sensor.pws_weather_1d
+    - sensor.pws_temp_f
+    - sensor.pws_feelslike_f
+    - sensor.pws_temp_high_1d_f
+    - sensor.pws_temp_low_1d_f
+    - sensor.pws_temp_high_record_f
+    - sensor.pws_temp_low_record_f
+
+my_devices:
+  name: My Devices
+  control: hidden
+  entities:
+    - device_tracker.amanda
+    - device_tracker.kyle
+    - device_tracker.tony
+
+living_room_lights:
+  name: Living Room Lights
+  entities:
+    - light.dining_dimmer_level
+    - switch.living_room_lamps_switch
+
+outside_lights:
+  name: Outside Lights
+  entities:
+    - switch.car_port_lights_switch
+    - switch.outside_front_lights_switch
+
+all_motion:
+  name: All Motion
+  control: hidden
+  entities:
+    - binary_sensor.foyer_motion
+    - binary_sensor.home_occupancy
+    - binary_sensor.sun_room_motion
+    - binary_sensor.upstairs_occupancy
+    - binary_sensor.bedroom_occupancy
+
+living_areas_motion:
+  name: Living Areas Motion
+  control: hidden
+  entities:
+    - binary_sensor.foyer_motion
+    - binary_sensor.home_occupancy
+    - binary_sensor.sun_room_motion
+    - binary_sensor.upstairs_occupancy
+
+all_doors:
+  name: All Doors
+  control: hidden
+  entities:
+    - binary_sensor.front_door
+    - binary_sensor.garage_door
+    - binary_sensor.master_bedroom_door
+    - binary_sensor.sun_room_door
+    - binary_sensor.office_door
+    - binary_sensor.laundry_room_door
+
+home_security:
+  name: Home Security System
+  control: hidden
+  entities:
+    - alarm_control_panel.alarm_panel
+    - sensor.alarm_panel_display
+    - camera.outside_driveway
+
+home_comfort:
+  name: Home Comfort
+  control: hidden
+  entities:
+    - climate.home
+    - sensor.home_temperature
+    - sensor.bedroom_temperature
+    - sensor.upstairs_temperature
+    - sensor.home_humidity
+
+water_sensors:
+  name: Water Sensors
+  control: hidden
+  entities:
+    - binary_sensor.basement_water_sensor
+
+sun_room_music:
+  name: Sun Room Music
+  control: hidden
+  entities:
+    - script.sun_room_music
+    - switch.sun_room_speakers_switch
+
+all_home_lights:
+  name: All Lights
+  entities:
+    - light.dining_dimmer_level
+    - switch.living_room_lamps_switch
+    - light.sun_room_dimmer_level
+    - switch.backyard_lights_switch
+    - switch.outside_front_lights_switch
+    - switch.car_port_lights_switch
+
+all_smoke:
+  name: All Smoke
+  entities:
+    - binary_sensor.basement_smoke
+    - binary_sensor.first_floor_smoke
+    - binary_sensor.second_floor_smoke
+
+all_alerts:
+  name: Alerts
+  entities:
+    - alert.fire
+    - alert.basement_flood
+    - alert.alarm_triggered
+
+all_hdmi:
+  name: HDMI Devices
+  entities:
+    - switch.hdmi_0
+    - switch.hdmi_3
+    - switch.hdmi_4
+    - switch.hdmi_5
+    - switch.hdmi_8
+
+###########
+## VIEWS ##
+###########
+default_view:
+  view: true
+  icon: mdi:home
+  entities:
+    - group.all_alerts
+    - group.all_home_lights
+    - group.home_comfort
+    - group.home_security
+    - group.weather_overview
+    - group.my_devices
+    - group.all_motion
+    - group.all_doors
+    - group.water_sensors
+    - group.all_smoke
+
+media_view:
+  view: true
+  icon: mdi:music
+  entities:
+    - group.all_hdmi
+    - group.sun_room_music
+    - media_player.spotify
+    - media_player.kitchen
+    - media_player.living_room_audio
+    - media_player.home_group
+
+automation_view:
+  view: true
+  icon: mdi:script
+  entities:
+    - group.all_automations
+    - group.all_scripts

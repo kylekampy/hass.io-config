@@ -1,0 +1,32 @@
+basement_flood:
+  name: Basement water detected
+  done_message: Basement water no longer detected
+  entity_id: binary_sensor.basement_water_sensor
+  state: "on"
+  repeat: 15
+  can_acknowledge: true
+  notifiers:
+    - contact_kyle
+    - push_notification
+
+fire:
+  name: Fire detected
+  done_message: Fire no longer detected
+  entity_id: group.all_smoke
+  state: "on"
+  repeat: 15
+  can_acknowledge: true
+  notifiers:
+    - contact_kyle
+    - push_notification
+
+alarm_triggered:
+  name: Alarm triggered
+  done_message: Alarm no longer triggered
+  entity_id: alarm_control_panel.alarm_panel
+  state: "triggered"
+  repeat: 15
+  can_acknowledge: true
+  notifiers:
+    - contact_kyle
+    - push_notification

@@ -1,0 +1,36 @@
+switch.living_room_lamps_switch:
+  platform: zwave
+  unique_id: 4-72057594109837312
+switch.outside_front_lights_switch:
+  platform: zwave
+  unique_id: 5-72057594126614528
+switch.car_port_lights_switch:
+  platform: zwave
+  unique_id: 7-72057594160168960
+switch.sun_room_speakers_switch:
+  platform: zwave
+  unique_id: 8-72057594176946176
+light.dining_dimmer_level:
+  platform: zwave
+  unique_id: 9-72057594193739777
+binary_sensor.basement_water_sensor:
+  platform: zwave
+  unique_id: 11-72057594227458048
+sensor.basement_water_alarm_type:
+  platform: zwave
+  unique_id: 11-72057594228523009
+sensor.basement_water_alarm_level:
+  platform: zwave
+  unique_id: 11-72057594228523025
+sensor.basement_water_sourcenodeid:
+  platform: zwave
+  unique_id: 11-72057594228523041
+sensor.basement_water_flood:
+  platform: zwave
+  unique_id: 11-72057594228523137
+switch.backyard_lights_switch:
+  platform: zwave
+  unique_id: 12-72057594244055040
+light.sun_room_dimmer_level:
+  platform: zwave
+  unique_id: 13-72057594260848641

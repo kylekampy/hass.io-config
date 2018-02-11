@@ -1,0 +1,34 @@
+tony:
+  hide_if_away: false
+  name: Tony
+  gravatar: !secret tony_gravatar
+  mac: !secret tony_mac
+  track: true
+
+kyle:
+  hide_if_away: false
+  name: Kyle
+  gravatar: !secret kyle_gravatar
+  mac: !secret kyle_mac
+  track: true
+
+amanda:
+  hide_if_away: false
+  name: Amanda
+  gravatar: !secret amanda_gravatar
+  mac: !secret amanda_mac
+  track: true
+
+living_room:
+  hide_if_away: false
+  mac: !secret mi_box_living_room_mac
+  name: Living Room MiBox
+  track: false
+  vendor: Xiaomi Communications Co Ltd
+
+tv_living_room:
+  hide_if_away: false
+  mac: !secret living_room_tv_mac
+  name: Living Room TV
+  track: false
+  vendor: Samsung Electronics Co.,Ltd
