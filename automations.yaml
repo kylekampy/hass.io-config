@@ -88,17 +88,18 @@
 ######################
 - alias: Turn off left on backyard lights
   trigger:
-    platform: state
-    entity_id: binary_sensor.sun_room_door
-    to: "off"
-    for:
-      minutes: 10
-  condition:
-    - condition: state
+    - platform: state
       entity_id: switch.backyard_lights_switch
-      state: "on"
+      to: "on"
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: binary_sensor.sun_room_door
+      to: "off"
+      for:
+        minutes: 5
   action:
-    service: light.turn_off
+    service: switch.turn_off
     entity_id: switch.backyard_lights_switch
 
 - alias: Turn on backyard lights for door
