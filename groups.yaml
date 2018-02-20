@@ -127,6 +127,18 @@ all_hdmi:
     - switch.hdmi_5
     - switch.hdmi_8
 
+all_energy:
+  name: Energy Usage
+  entities:
+    - sensor.energy_usage
+    - sensor.other_energy_usage
+    - sensor.always_on_energy_usage
+    - sensor.fridge_energy_usage
+    - sensor.hvac_fan_low_energy_usage
+    - sensor.microwave_energy_usage
+    - sensor.stove_burner_back_left_energy_usage
+    - sensor.bathroom_light_basement_energy_usage
+
 ###########
 ## VIEWS ##
 ###########
@@ -144,6 +156,7 @@ default_view:
     - group.all_doors
     - group.water_sensors
     - group.all_smoke
+    - group.all_energy
 
 media_view:
   view: true

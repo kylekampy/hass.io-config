@@ -146,6 +146,12 @@ sensor:
       - temp_high_1d_f
       - temp_low_1d_f
       - temp_low_record_f
+  - platform: sense
+    email: !secret sense_email
+    password: !secret sense_password
+    monitored_conditions:
+      - consumption
+      - devices
 
 twilio:
   account_sid: !secret twilio_account_sid
