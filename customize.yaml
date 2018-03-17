@@ -46,3 +46,9 @@ switch.hdmi_5:
   friendly_name: Living Room Receiver
 switch.hdmi_8:
   friendly_name: Living Room MiBox
+sensor.outside_temperature:
+  friendly_name: Current Temperature
+sensor.outside_humidity:
+  friendly_name: Current Humidity
+sensor.energy_usage:
+  friendly_name: Active Total Energy Usage

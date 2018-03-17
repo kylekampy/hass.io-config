@@ -6,7 +6,8 @@ weather_overview:
   control: hidden
   entities:
     - sensor.pws_weather_1d
-    - sensor.pws_temp_f
+    - sensor.outside_temperature
+    - sensor.outside_humidity
     - sensor.pws_feelslike_f
     - sensor.pws_temp_high_1d_f
     - sensor.pws_temp_low_1d_f
@@ -69,7 +70,6 @@ home_security:
   entities:
     - alarm_control_panel.alarm_panel
     - sensor.alarm_panel_display
-    - camera.outside_driveway
 
 home_comfort:
   name: Home Comfort
@@ -130,14 +130,23 @@ all_hdmi:
 all_energy:
   name: Energy Usage
   entities:
+    - sensor.daily_usage
+    - sensor.weekly_usage
+    - sensor.monthly_usage
     - sensor.energy_usage
-    - sensor.other_energy_usage
     - sensor.always_on_energy_usage
+    - sensor.other_energy_usage
     - sensor.fridge_energy_usage
     - sensor.hvac_fan_low_energy_usage
+    - sensor.coffee_maker_energy_usage
+    - sensor.dryer_energy_usage
+    - sensor.lights_basement_energy_usage
     - sensor.microwave_energy_usage
+    - sensor.oven_energy_usage
+    - sensor.samsung_tv_energy_usage
     - sensor.stove_burner_back_left_energy_usage
-    - sensor.bathroom_light_basement_energy_usage
+    - sensor.stove_burner_front_right_energy_usage
+    - sensor.toaster_oven_energy_usage
 
 ###########
 ## VIEWS ##

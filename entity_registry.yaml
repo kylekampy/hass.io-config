@@ -34,3 +34,12 @@ switch.backyard_lights_switch:
 light.sun_room_dimmer_level:
   platform: zwave
   unique_id: 13-72057594260848641
+media_player.living_room_audio:
+  platform: cast
+  unique_id: 416961db-24d5-ccf6-2321-ed2e356739b4
+media_player.home_group:
+  platform: cast
+  unique_id: eb91a1e6-01e0-4711-ba6f-9898fa408640
+media_player.kitchen:
+  platform: cast
+  unique_id: 209d1b26-73a2-2e7f-9677-e0665bee776e

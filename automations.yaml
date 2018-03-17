@@ -40,6 +40,8 @@
     - condition: state
       entity_id: switch.living_room_lamps_switch
       state: "off"
+      for:
+        minutes: 5
   action:
     - service: automation.trigger
       entity_id: automation.turn_on_living_room_lights
@@ -178,7 +180,7 @@
   trigger:
     - platform: sun
       event: sunset
-      offset: "-00:30:00"
+      offset: "-01:00:00"
   condition:
     - condition: state
       entity_id: group.my_devices
@@ -190,10 +192,11 @@
     - service: switch.turn_on
       entity_id: switch.living_room_lamps_switch
 
-- alias: Sunset lamps on when home
+- alias: Sunset living room lights on when home
   trigger:
     - platform: sun
       event: sunset
+      offset: "-00:30:00"
   condition:
     - condition: state
       entity_id: group.my_devices
@@ -202,9 +205,7 @@
       entity_id: group.living_areas_motion
       state: "on"
   action:
-    - service: switch.turn_on
-      entity_id: switch.living_room_lamps_switch
-    - service: light.turn_on
-      entity_id: light.dining_room_dimmer
+    - service: automation.trigger
+      entity_id: automation.turn_on_living_room_lights
 
 ######################################
