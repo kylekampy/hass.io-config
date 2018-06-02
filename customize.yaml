@@ -16,6 +16,12 @@ switch.living_room_lamps_switch:
 switch.backyard_lights_switch:
   friendly_name: Backyard Lights
   icon: mdi:lightbulb
+switch.office_balcony_lights_switch:
+  friendly_name: Office Balcony Lights
+  icon: mdi:lightbulb
+switch.living_room_mantel_lamps_switch:
+  friendly_name: Living Room Mantel Lamps
+  icon: mdi:lightbulb
 switch.outside_front_lights_switch:
   friendly_name: Outside Front Lights
   icon: mdi:lightbulb

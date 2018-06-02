@@ -27,12 +27,15 @@ living_room_lights:
   entities:
     - light.dining_dimmer_level
     - switch.living_room_lamps_switch
+    - light.living_room_mantel_lamps_switch
 
 outside_lights:
   name: Outside Lights
   entities:
     - switch.car_port_lights_switch
     - switch.outside_front_lights_switch
+    - switch.backyard_lights_switch
+    - switch.office_balcony_lights_switch
 
 all_motion:
   name: All Motion
@@ -99,8 +102,10 @@ all_home_lights:
   entities:
     - light.dining_dimmer_level
     - switch.living_room_lamps_switch
+    - switch.living_room_mantel_lamps_switch
     - light.sun_room_dimmer_level
     - switch.backyard_lights_switch
+    - switch.office_balcony_lights_switch
     - switch.outside_front_lights_switch
     - switch.car_port_lights_switch
 

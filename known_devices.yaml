@@ -32,3 +32,12 @@ tv_living_room:
   name: Living Room TV
   track: false
   vendor: Samsung Electronics Co.,Ltd
+
+kyles_macbook_pro:
+  hide_if_away: false
+  icon:
+  mac: !secret kyles_macbook_pro_mac
+  name: Kyle’s MacBook Pro
+  picture:
+  track: false
+  vendor: Apple, Inc.

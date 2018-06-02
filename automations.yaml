@@ -119,6 +119,36 @@
   action:
     service: switch.turn_on
     entity_id: switch.backyard_lights_switch
+
+- alias: Office balcony lights follow backyard lights on state
+  trigger:
+    platform: state
+    entity_id: switch.backyard_lights_switch
+    to: "on"
+  action:
+    service: switch.turn_on
+    entity_id: switch.office_balcony_lights_switch
+
+- alias: Office balcony lights follow backyard lights off state
+  trigger:
+    platform: state
+    entity_id: switch.backyard_lights_switch
+    to: "off"
+  action:
+    service: switch.turn_off
+    entity_id: switch.office_balcony_lights_switch
+
+- alias: Turn off left on office balcony lights
+  trigger:
+    - platform: state
+      entity_id: switch.office_balcony_lights_switch
+      to: "on"
+      for:
+        minutes: 20
+  action:
+    service: switch.turn_off
+    entity_id: switch.office_balcony_lights_switch
+
 #######################
 
 ##############################################
@@ -209,3 +239,128 @@
       entity_id: automation.turn_on_living_room_lights
 
 ######################################
+
+#######################################################
+## Living room mantel lamps follow living room lamps ##
+#######################################################
+- alias: Living room mantel lamps follow living room lamps on state
+  trigger:
+    platform: state
+    entity_id: switch.living_room_lamps_switch
+    to: "on"
+  action:
+    service: switch.turn_on
+    entity_id: switch.living_room_mantel_lamps_switch
+
+- alias: Living room mantel lamps follow living room lamps off state
+  trigger:
+    platform: state
+    entity_id: switch.living_room_lamps_switch
+    to: "off"
+  action:
+    service: switch.turn_off
+    entity_id: switch.living_room_mantel_lamps_switch
+
+############################
+### Harmony Home Control ###
+############################
+
+- alias: Prepare lights for going to bed
+  trigger:
+    platform: event
+    event_type: roku_command
+    event_data:
+      type: keypress
+      key: BackSpace
+  condition:
+    - condition: time
+      after: "21:00:00"
+    - condition: sun
+      before: sunrise
+  action:
+    - service: switch.turn_off
+      entity_id: switch.living_room_lamps_switch
+    - service: light.turn_on
+      data:
+        entity_id: light.dining_dimmer_level
+        brightness: 90
+    - service: switch.turn_off
+      entity_id: switch.outside_front_lights_switch
+    - service: switch.turn_on
+      entity_id: switch.backyard_lights_switch
+    - delay: '00:05:00'
+    - service: light.turn_on # restore original brightness so next time we turn it on it's not dim
+      data:
+        entity_id: light.dining_dimmer_level
+        brightness: 255
+    - service: light.turn_off
+      entity_id: light.dining_dimmer_level
+
+- alias: Emulated Roku Command Up/Living Room Lamps
+  trigger:
+    platform: event
+    event_type: roku_command
+    event_data:
+      type: keypress
+      key: Up
+  action:
+    - service: switch.toggle
+      entity_id: switch.living_room_lamps_switch
+
+- alias: Emulated Roku Command Down/Dining Dimmer
+  trigger:
+    platform: event
+    event_type: roku_command
+    event_data:
+      type: keypress
+      key: Down
+  action:
+    - service: light.toggle
+      entity_id: light.dining_dimmer_level
+
+- alias: Emulated Roku Command Left/Living Room Mantel Lamps
+  trigger:
+    platform: event
+    event_type: roku_command
+    event_data:
+      type: keypress
+      key: Left
+  action:
+    - service: switch.toggle
+      entity_id: switch.living_room_mantel_lamps_switch
+
+- alias: Emulated Roku Command Right/Backyard Lights
+  trigger:
+    platform: event
+    event_type: roku_command
+    event_data:
+      type: keypress
+      key: Right
+  action:
+    - service: switch.toggle
+      entity_id: switch.backyard_lights_switch
+
+- alias: Emulated Roku Command Play/Start KEXP On Receiver
+  trigger:
+    platform: event
+    event_type: roku_command
+    event_data:
+      type: keypress
+      key: Play
+  action:
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.living_room_audio
+        media_content_id: "http://live-mp3-128.kexp.org/kexp128.mp3"
+        media_content_type: "audio/mp4"
+
+- alias: Emulated Roku Command Back/Stop Chromecast
+  trigger:
+    platform: event
+    event_type: roku_command
+    event_data:
+      type: keypress
+      key: Back
+  action:
+    - service: media_player.media_stop
+      entity_id: media_player.living_room_audio

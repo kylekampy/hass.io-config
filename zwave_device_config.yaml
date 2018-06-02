@@ -6,3 +6,6 @@ light.sun_room_dimmer_level:
   polling_intensity: 1
   refresh_value: true
   delay: 4
+switch.office_balcony_lights_switch:
+  ignored: false
+  polling_intensity: 0
