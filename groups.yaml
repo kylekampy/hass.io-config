@@ -6,13 +6,14 @@ weather_overview:
   control: hidden
   entities:
     - sensor.pws_weather_1d
-    - sensor.outside_temperature
-    - sensor.outside_humidity
+    - sensor.pws_temp_f
+    - sensor.pws_relative_humidity
     - sensor.pws_feelslike_f
     - sensor.pws_temp_high_1d_f
     - sensor.pws_temp_low_1d_f
     - sensor.pws_temp_high_record_f
     - sensor.pws_temp_low_record_f
+    - camera.midwest_weather_radar
 
 my_devices:
   name: My Devices
@@ -20,7 +21,6 @@ my_devices:
   entities:
     - device_tracker.amanda
     - device_tracker.kyle
-    - device_tracker.tony
 
 living_room_lights:
   name: Living Room Lights
@@ -123,15 +123,6 @@ all_alerts:
     - alert.basement_flood
     - alert.alarm_triggered
 
-all_hdmi:
-  name: HDMI Devices
-  entities:
-    - switch.hdmi_0
-    - switch.hdmi_3
-    - switch.hdmi_4
-    - switch.hdmi_5
-    - switch.hdmi_8
-
 all_energy:
   name: Energy Usage
   entities:
@@ -140,18 +131,13 @@ all_energy:
     - sensor.monthly_usage
     - sensor.energy_usage
     - sensor.always_on_energy_usage
-    - sensor.other_energy_usage
-    - sensor.fridge_energy_usage
-    - sensor.hvac_fan_low_energy_usage
-    - sensor.coffee_maker_energy_usage
-    - sensor.dryer_energy_usage
-    - sensor.lights_basement_energy_usage
-    - sensor.microwave_energy_usage
-    - sensor.oven_energy_usage
-    - sensor.samsung_tv_energy_usage
-    - sensor.stove_burner_back_left_energy_usage
-    - sensor.stove_burner_front_right_energy_usage
-    - sensor.toaster_oven_energy_usage
+
+system_monitor:
+  name: System Monitor
+  entities:
+    - sensor.processor_use
+    - sensor.memory_use_percent
+    - sensor.disk_use_percent_
 
 ###########
 ## VIEWS ##
@@ -171,12 +157,12 @@ default_view:
     - group.water_sensors
     - group.all_smoke
     - group.all_energy
+    - group.system_monitor
 
 media_view:
   view: true
   icon: mdi:music
   entities:
-    - group.all_hdmi
     - group.sun_room_music
     - media_player.spotify
     - media_player.kitchen

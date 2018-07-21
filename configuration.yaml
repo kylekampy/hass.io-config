@@ -51,10 +51,6 @@ logbook:
 # Track the sun
 sun:
 
-# # Weather prediction
-# sensor:
-#   - platform: yr
-
 # Text to speech
 tts:
   - platform: google
@@ -140,6 +136,7 @@ sensor:
     api_key: !secret wunderground_api_key
     monitored_conditions:
       - temp_f
+      - relative_humidity
       - feelslike_f
       - weather_1d
       - temp_high_record_f
@@ -165,6 +162,13 @@ sensor:
     state_topic: "homeassistant/sensor/rtl443"
     unit_of_measurement: "%"
     value_template: '{{ value_json.humidity }}'
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /
+      - type: memory_use_percent
+      - type: processor_use
+      - type: since_last_boot
 
 twilio:
   account_sid: !secret twilio_account_sid
@@ -284,14 +288,6 @@ binary_sensor:
         value_template: >-
           {{ states.sensor.alarm_panel_display.state|trim == "FIRE 19" }}
 
-hdmi_cec:
-  devices:
-    TV: 0.0.0.0
-    Receiver: 3.0.0.0
-    Switch: 3.2.0.0
-    Hassio: 3.3.0.0
-    MiBox: 3.4.0.0
-
 shell_command:
   zwave_stick_disco_off: echo -e -n "\x01\x08\x00\xF2\x51\x01\x00\x05\x01\x51" > /dev/ttyACM0
   zwave_stick_disco_on: echo -e -n "\x01\x08\x00\xF2\x51\x01\x01\x05\x01\x50" > /dev/ttyACM0
@@ -308,5 +304,10 @@ emulated_roku:
   host_ip: 192.168.86.15
   listen_ports:
     - 8060
+
+camera:
+  platform: generic
+  still_image_url: http://images.intellicast.com/WxImages/RadarLoop/stc_None_anim.gif
+  name: Midwest Weather Radar
 
 # logger:

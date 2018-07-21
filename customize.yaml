@@ -42,16 +42,6 @@ sensor.pws_temp_high_record_f:
   friendly_name: Record high today
 sensor.pws_temp_low_record_f:
   friendly_name: Record low today
-switch.hdmi_0:
-  friendly_name: Living Room TV
-switch.hdmi_3:
-  friendly_name: Living Room Receiver
-switch.hdmi_4:
-  friendly_name: Nintendo Switch
-switch.hdmi_5:
-  friendly_name: Living Room Receiver
-switch.hdmi_8:
-  friendly_name: Living Room MiBox
 sensor.outside_temperature:
   friendly_name: Current Temperature
 sensor.outside_humidity:

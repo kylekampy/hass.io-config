@@ -16,4 +16,3 @@ sun_room_music:
       data_template:
         entity_id: media_player.spotify
         shuffle: true
-

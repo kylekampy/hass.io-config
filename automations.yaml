@@ -264,6 +264,8 @@
 ############################
 ### Harmony Home Control ###
 ############################
+# Relies heavily on emulated_roku: https://gitlab.com/mindig.marton/ha-emulated_roku
+# Valid external commands: https://sdkdocs.roku.com/display/sdkdoc/External+Control+API#ExternalControlAPI-KeypressKeyValues
 
 - alias: Prepare lights for going to bed
   trigger:
