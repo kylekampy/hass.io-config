@@ -193,3 +193,43 @@ sensor.pws_relative_humidity:
   name:
   platform: wunderground
   unique_id: '@-91.198196,43.797968,relative_humidity'
+sensor.front_door_deadbolt_alarm_type:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 17-72057594329186305
+sensor.front_door_deadbolt_alarm_level:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 17-72057594329186321
+zwave.front_door_deadbolt:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: node-17
+lock.front_door_deadbolt_locked:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 17-72057594328940544
+sensor.front_door_deadbolt_sourcenodeid:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 17-72057594329186337
+sensor.front_door_deadbolt_access_control:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 17-72057594329186449
+sensor.front_door_deadbolt_power_management:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 17-72057594329186481
+sensor.front_door_deadbolt_system:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 17-72057594329186497

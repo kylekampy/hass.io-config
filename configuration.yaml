@@ -154,12 +154,12 @@ sensor:
       - devices
   - platform: mqtt
     name: outside_temperature
-    state_topic: "homeassistant/sensor/rtl443"
+    state_topic: "homeassistant/sensor/rtl443/Acurite_tower_sensor/4214"
     unit_of_measurement: "°F"
     value_template: '{{ ((value_json.temperature_C * 9 / 5) + 32)|round(1) }}'
   - platform: mqtt
     name: outside_humidity
-    state_topic: "homeassistant/sensor/rtl443"
+    state_topic: "homeassistant/sensor/rtl443/Acurite_tower_sensor/4214"
     unit_of_measurement: "%"
     value_template: '{{ value_json.humidity }}'
   - platform: systemmonitor

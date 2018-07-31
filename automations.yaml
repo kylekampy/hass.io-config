@@ -366,3 +366,81 @@
   action:
     - service: media_player.media_stop
       entity_id: media_player.living_room_audio
+
+
+######################################
+### Front door locking automations ###
+######################################
+- alias: Lock front door deadbolt when door closed
+  hide_entity: true
+  trigger:
+    - platform: event
+      event_type: LOCK_FRONT_DOOR
+  condition:
+    - condition: state
+      entity_id: lock.front_door_deadbolt_locked
+      state: "unlocked"
+    - condition: state
+      entity_id: binary_sensor.front_door
+      state: "off"
+  action:
+    - service: lock.lock
+      entity_id: lock.front_door_deadbolt_locked
+
+- alias: Notify could not lock front door because it was left open
+  hide_entity: true
+  trigger:
+    - platform: event
+      event_type: LOCK_FRONT_DOOR
+  condition:
+    - condition: state
+      entity_id: lock.front_door_deadbolt_locked
+      state: "unlocked"
+    - condition: state
+      entity_id: binary_sensor.front_door
+      state: "on"
+  action:
+    - service: notify.twilio
+      data:
+        target: !secret kyle_phone
+        message: "Unable to lock front door because it has been left open"
+        title: "Cannot lock front door"
+
+- alias: Lock front door when nobody is home
+  trigger:
+    - platform: state
+      entity_id: group.my_devices
+      to: "not_home"
+  action:
+    - event: LOCK_FRONT_DOOR
+
+- alias: Lock front door at 10 PM 
+  trigger:
+    - platform: time
+      at: "22:00:00"
+  action:
+    - event: LOCK_FRONT_DOOR
+
+- alias: Warn front door unlocked by guest code
+  trigger:
+    - platform: numeric_state
+      entity_id: lock.front_door_deadbolt_locked
+      value_template: '{{ (state.attributes.lock_status).split(" ")[-1] | int }}'
+      above: 1 # 1 is our code, and > 1 means one of the many guest codes
+  action:
+    - service: notify.twilio
+      data:
+        target: !secret kyle_phone
+        message: 'Warning! Front door unlocked by guest user code {{ (states.lock.front_door_deadbolt_locked.attributes.lock_status).split(" ")[-1] }}'
+
+- alias: Warn front door deadbolt low battery
+  trigger:
+    - platform: numeric_state
+      entity_id:  zwave.front_door_deadbolt
+      value_template: '{{ state.attributes.battery_level }}'
+      below: 15
+  action:
+    - service: persistent_notification.create
+      data:
+        title: "Low battery!"
+        message: 'Front door deadbolt down to {{ states.zwave.front_door_deadbolt.attributes.battery_level }}%. Replace batteries.'

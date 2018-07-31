@@ -48,3 +48,5 @@ sensor.outside_humidity:
   friendly_name: Current Humidity
 sensor.energy_usage:
   friendly_name: Active Total Energy Usage
+lock.front_door_deadbolt_locked:
+  friendly_name: Front Door Deadbolt

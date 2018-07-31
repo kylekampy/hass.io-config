@@ -6,8 +6,8 @@ weather_overview:
   control: hidden
   entities:
     - sensor.pws_weather_1d
-    - sensor.pws_temp_f
-    - sensor.pws_relative_humidity
+    - sensor.outside_temperature
+    - sensor.outside_humidity
     - sensor.pws_feelslike_f
     - sensor.pws_temp_high_1d_f
     - sensor.pws_temp_low_1d_f
@@ -71,6 +71,7 @@ home_security:
   name: Home Security System
   control: hidden
   entities:
+    - lock.front_door_deadbolt_locked
     - alarm_control_panel.alarm_panel
     - sensor.alarm_panel_display
 
