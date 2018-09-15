@@ -28,6 +28,7 @@ living_room_lights:
     - light.dining_dimmer_level
     - switch.living_room_lamps_switch
     - light.living_room_mantel_lamps_switch
+    - light.living_room_light
 
 outside_lights:
   name: Outside Lights
@@ -84,6 +85,7 @@ home_comfort:
     - sensor.bedroom_temperature
     - sensor.upstairs_temperature
     - sensor.home_humidity
+    - fan.living_room
 
 water_sensors:
   name: Water Sensors
@@ -103,6 +105,7 @@ all_home_lights:
   entities:
     - light.dining_dimmer_level
     - switch.living_room_lamps_switch
+    - light.living_room_light
     - switch.living_room_mantel_lamps_switch
     - light.sun_room_dimmer_level
     - switch.backyard_lights_switch

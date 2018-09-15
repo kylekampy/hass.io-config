@@ -66,23 +66,12 @@
         - condition: sun
           after: sunset
   action:
-    service: light.turn_on
-    entity_id: light.sun_room_dimmer_level
-
-- alias: End sun room motion lights
-  trigger:
-    platform: state
-    entity_id: binary_sensor.sun_room_motion
-    to: "off"
-    for:
-      minutes: 5
-  condition:
-    - condition: state
+    - service: light.turn_on
       entity_id: light.sun_room_dimmer_level
-      state: "on"
-  action:
-    service: light.turn_off
-    entity_id: light.sun_room_dimmer_level
+    - delay: "00:05:00"
+    - service: light.turn_off
+      entity_id: light.sun_room_dimmer_level
+
 #####################
 
 ######################
@@ -241,25 +230,29 @@
 ######################################
 
 #######################################################
-## Living room mantel lamps follow living room lamps ##
+## Living room aux lights follow living room lamps ##
 #######################################################
-- alias: Living room mantel lamps follow living room lamps on state
+- alias: Living room aux lights follow living room lamps on state
   trigger:
     platform: state
     entity_id: switch.living_room_lamps_switch
     to: "on"
   action:
-    service: switch.turn_on
-    entity_id: switch.living_room_mantel_lamps_switch
+    - service: switch.turn_on
+      entity_id: switch.living_room_mantel_lamps_switch
+    - service: light.turn_on
+      entity_id: light.living_room_light
 
-- alias: Living room mantel lamps follow living room lamps off state
+- alias: Living room aux lights follow living room lamps off state
   trigger:
     platform: state
     entity_id: switch.living_room_lamps_switch
     to: "off"
   action:
-    service: switch.turn_off
-    entity_id: switch.living_room_mantel_lamps_switch
+    - service: switch.turn_off
+      entity_id: switch.living_room_mantel_lamps_switch
+    - service: light.turn_off
+      entity_id: light.living_room_light
 
 ############################
 ### Harmony Home Control ###
@@ -433,6 +426,8 @@
         target: !secret kyle_phone
         message: 'Warning! Front door unlocked by guest user code {{ (states.lock.front_door_deadbolt_locked.attributes.lock_status).split(" ")[-1] }}'
 
+## warn multiple failure attempts within a short period of time
+
 - alias: Warn front door deadbolt low battery
   trigger:
     - platform: numeric_state
@@ -444,3 +439,112 @@
       data:
         title: "Low battery!"
         message: 'Front door deadbolt down to {{ states.zwave.front_door_deadbolt.attributes.battery_level }}%. Replace batteries.'
+
+
+#######################
+### Fan Automations ###
+#######################
+
+- alias: When temperature between upstairs and downstairs differs, turn on fan for 30 minutes
+  trigger:
+    - platform: template
+      value_template: "{{ ((states.sensor.upstairs_temperature.state | float) - (states.sensor.home_temperature.state | float)) | abs > 3.0 }}"
+  condition:
+    - condition: state
+      entity_id: fan.living_room
+      state: "off"
+  action:
+    - service: fan.turn_on
+      entity_id: fan.living_room
+    - service: fan.set_speed
+      entity_id: fan.living_room
+      data:
+        speed: 6
+    - delay: '00:15:00'
+    - service: fan.turn_off
+      entity_id: fan.living_room
+
+- alias: When thermostat set to cool, set fan direction forward
+  trigger:
+    - platform: state
+      entity_id: climate.home 
+      to: "cool" 
+  action:
+    - service: fan.set_direction
+      entity_id: fan.living_room
+      data:
+        direction: forward
+
+- alias: When thermostate set to heat, set fan direction reverse
+  trigger:
+    - platform: state
+      entity_id: climate.home
+      to: "heat"
+  action:
+    - service: fan.set_direction
+      entity_id: fan.living_room
+      data:
+        direction: reverse
+
+- alias: When HVAC fan running, turn on fan
+  trigger:
+    - platform: template
+      value_template: "{{ states.climate.home.attributes.fan == 'on' }}"
+  condition:
+    - condition: state
+      entity_id: fan.living_room
+      state: "off"
+  action:
+    - service: fan.turn_on
+      entity_id: fan.living_room
+    - delay: "00:15:00"
+    - service: fan.turn_off
+      entity_id: fan.living_room 
+
+- alias: Turn off fan when nobody is home
+  trigger:
+    - platform: state
+      entity_id: group.my_devices
+      to: "not_home"
+      for:
+        minutes: 10 
+  condition:
+    - condition: state
+      entity_id: fan.living_room
+      state: "on"
+  action:
+    - service: fan.turn_off
+      entity_id: fan.living_room_fan
+
+- alias: Turn off fan when left on late at night
+  trigger:
+    - platform: time
+      at: '23:00:00'
+  condition:
+    - condition: state
+      entity_id: fan.living_room
+      state: "on"
+  action:
+    - service: fan.turn_off
+      entity_id: fan.living_room
+
+
+##############################
+### Janitorial Automations ###
+##############################
+
+- alias: Renew Let's Encrypt certificate
+  trigger:
+  - platform: time
+    at: '00:03:00' # 3am
+  action:
+  - service: hassio.addon_stop
+    data:
+      addon: core_nginx_proxy
+  - service: hassio.addon_start
+    data:
+      addon: core_letsencrypt
+  - delay: '00:05:00' # 5 minutes
+  - service: hassio.addon_start
+    data:
+      addon: core_nginx_proxy

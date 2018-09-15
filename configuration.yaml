@@ -42,10 +42,28 @@ updater:
 # Discover some devices automatically
 discovery:
 
-# Enables support for tracking state changes over time
-history:
+recorder:
+  purge_keep_days: 4
+  include:
+    entities:
+      - sensor.alarm_panel_display
+      - sensor.home_humidity
+      - sensor.home_temperature
+      - sensor.outside_humidity
+      - sensor.outside_temperature
+      - sensor.bedroom_temperature
+      - sensor.upstairs_temperature
+    domains:
+      - alarm_control_panel
+      - alert
+      - binary_sensor
+      - device_tracker
+      - fan
+      - light
+      - lock
+      - switch
 
-# View all events in a logbook
+history:
 logbook:
 
 # Track the sun
@@ -310,4 +328,5 @@ camera:
   still_image_url: http://images.intellicast.com/WxImages/RadarLoop/stc_None_anim.gif
   name: Midwest Weather Radar
 
-# logger:
+senseme:
+
