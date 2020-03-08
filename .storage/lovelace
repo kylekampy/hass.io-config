@@ -22,7 +22,7 @@
                                 "switch.car_port_lights_switch",
                                 "light.kitchen"
                             ],
-                            "show_header_toggle": true,
+                            "show_header_toggle": false,
                             "title": "All Lights",
                             "type": "entities"
                         },
@@ -36,11 +36,33 @@
                         },
                         {
                             "entities": [
-                                "sensor.home_temperature",
-                                "sensor.bedroom_temperature",
-                                "sensor.upstairs_temperature",
-                                "sensor.home_humidity",
-                                "fan.living_room_fan"
+                                {
+                                    "entity": "sensor.home_temperature"
+                                },
+                                {
+                                    "entity": "sensor.bedroom_temperature"
+                                },
+                                {
+                                    "entity": "sensor.upstairs_temperature"
+                                },
+                                {
+                                    "entity": "sensor.home_humidity"
+                                },
+                                {
+                                    "entity": "fan.living_room_fan"
+                                },
+                                {
+                                    "entity": "sensor.awair_score"
+                                },
+                                {
+                                    "entity": "sensor.awair_co2"
+                                },
+                                {
+                                    "entity": "sensor.awair_voc"
+                                },
+                                {
+                                    "entity": "sensor.awair_pm2_5"
+                                }
                             ],
                             "show_header_toggle": false,
                             "title": "Home Comfort",
@@ -67,15 +89,6 @@
                             ],
                             "show_header_toggle": false,
                             "title": "Alerts",
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
-                                "sensor.outside_temperature",
-                                "sensor.outside_humidity"
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Weather Overview",
                             "type": "entities"
                         },
                         {
@@ -132,7 +145,7 @@
                                 "sensor.monthly_usage",
                                 "sensor.energy_usage"
                             ],
-                            "show_header_toggle": true,
+                            "show_header_toggle": false,
                             "title": "Energy Usage",
                             "type": "entities"
                         },
@@ -142,7 +155,7 @@
                                 "binary_sensor.first_floor_smoke",
                                 "binary_sensor.second_floor_smoke"
                             ],
-                            "show_header_toggle": true,
+                            "show_header_toggle": false,
                             "title": "All Smoke",
                             "type": "entities"
                         },
@@ -152,7 +165,7 @@
                                 "sensor.memory_use_percent",
                                 "sensor.disk_use_percent"
                             ],
-                            "show_header_toggle": true,
+                            "show_header_toggle": false,
                             "title": "System Monitor",
                             "type": "entities"
                         }

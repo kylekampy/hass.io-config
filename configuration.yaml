@@ -48,10 +48,14 @@ recorder:
       - sensor.alarm_panel_display
       - sensor.home_humidity
       - sensor.home_temperature
-      - sensor.outside_humidity
-      - sensor.outside_temperature
       - sensor.bedroom_temperature
       - sensor.upstairs_temperature
+      - sensor.awair_co2
+      - sensor.awair_humidity
+      - sensor.awair_pm2_5
+      - sensor.awair_score
+      - sensor.awair_temperature
+      - sensor.awair_voc
     domains:
       - alarm_control_panel
       - alert
@@ -154,16 +158,6 @@ weather:
     api_key: !secret dark_sky_secret
 
 sensor:
-  - platform: mqtt
-    name: outside_temperature
-    state_topic: "homeassistant/sensor/rtl443/Acurite_tower_sensor/4214"
-    unit_of_measurement: "°F"
-    value_template: '{{ ((value_json.temperature_C * 9 / 5) + 32)|round(1) }}'
-  - platform: mqtt
-    name: outside_humidity
-    state_topic: "homeassistant/sensor/rtl443/Acurite_tower_sensor/4214"
-    unit_of_measurement: "%"
-    value_template: '{{ value_json.humidity }}'
   - platform: systemmonitor
     resources:
       - type: disk_use_percent
@@ -171,7 +165,8 @@ sensor:
       - type: memory_use_percent
       - type: processor_use
       - type: last_boot
-  - platform: huesensor
+  - platform: awair
+    access_token: !secret awair_access_token
 
 sense:
   email: !secret sense_email
@@ -245,9 +240,6 @@ binary_sensor:
 shell_command:
   zwave_stick_disco_off: echo -e -n "\x01\x08\x00\xF2\x51\x01\x00\x05\x01\x51" > /dev/ttyACM0
   zwave_stick_disco_on: echo -e -n "\x01\x08\x00\xF2\x51\x01\x01\x05\x01\x50" > /dev/ttyACM0
-
-mqtt:
-  broker: 192.168.86.15
 
 remote:
   - platform: harmony
