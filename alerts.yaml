@@ -8,6 +8,7 @@ basement_flood:
   notifiers:
     - contact_kyle
     - push_notification
+    - mobile_app_pixel_3
 
 fire:
   name: Fire detected
@@ -19,6 +20,7 @@ fire:
   notifiers:
     - contact_kyle
     - push_notification
+    - mobile_app_pixel_3
 
 alarm_triggered:
   name: Alarm triggered
@@ -30,3 +32,4 @@ alarm_triggered:
   notifiers:
     - contact_kyle
     - push_notification
+    - mobile_app_pixel_3
