@@ -9,3 +9,7 @@ light.sun_room_dimmer_level:
 switch.office_balcony_lights_switch:
   ignored: false
   polling_intensity: 0
+switch.living_room_lamps_switch:
+  polling_intensity: 1
+  refresh_value: true
+  delay: 4

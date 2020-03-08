@@ -22,7 +22,6 @@ frontend:
 config:
 
 http:
-  api_password: !secret api_password
   server_port: 8123
   base_url: !secret base_url
   ssl_certificate: /ssl/fullchain.pem
@@ -71,7 +70,8 @@ sun:
 
 # Text to speech
 tts:
-  - platform: google
+  - platform: google_translate
+    service_name: google_say
 
 # Cloud
 cloud:
@@ -87,7 +87,7 @@ panel_iframe:
     title: Configurator
     icon: mdi:wrench
     # Intentionally not port forwarded or exposed, so only locally accessible
-    url: https://hassio.local:3218
+    url: https://192.168.86.15:3218
 
 alarmdecoder:
   device:
@@ -149,27 +149,11 @@ zwave:
   network_key: !secret zwave_network_key
   device_config: !include zwave_device_config.yaml
 
+weather:
+  - platform: darksky
+    api_key: !secret dark_sky_secret
+
 sensor:
-  - platform: wunderground
-    api_key: !secret wunderground_api_key
-    monitored_conditions:
-      - temp_f
-      - relative_humidity
-      - feelslike_f
-      - weather_1d
-      - temp_high_record_f
-      - temp_high_1d_f
-      - temp_low_1d_f
-      - temp_low_record_f
-  - platform: sense
-    email: !secret sense_email
-    password: !secret sense_password
-    monitored_conditions:
-      - daily_usage
-      - weekly_usage
-      - monthly_usage
-      - active_usage
-      - devices
   - platform: mqtt
     name: outside_temperature
     state_topic: "homeassistant/sensor/rtl443/Acurite_tower_sensor/4214"
@@ -186,7 +170,12 @@ sensor:
         arg: /
       - type: memory_use_percent
       - type: processor_use
-      - type: since_last_boot
+      - type: last_boot
+  - platform: huesensor
+
+sense:
+  email: !secret sense_email
+  password: !secret sense_password
 
 twilio:
   account_sid: !secret twilio_account_sid
@@ -223,6 +212,7 @@ google_domains:
  
 device_tracker:
   - platform: bluetooth_tracker
+  - platform: huesensor
 
 media_player:
   - platform: spotify
@@ -231,61 +221,6 @@ media_player:
   - platform: samsungtv
     host: 192.168.86.121
     port: 8001
-
-google_assistant:
-  project_id: !secret google_assistant_project_id
-  client_id: !secret google_assistant_client_id
-  access_token: !secret google_assistant_access_token
-  agent_user_id: !secret google_assistant_agent_user_id
-  api_key: !secret google_assistant_api_key
-  exposed_domains:
-    - switch
-    - light
-    - group
-    - script
-  entity_config:
-    group.all_automations:
-      expose: false
-    group.all_devices:
-      expose: false
-    group.all_doors:
-      expose: false
-    group.all_motion:
-      expose: false
-    group.all_switches:
-      expose: false
-    group.all_smoke:
-      expose: false
-    group.home_comfort:
-      expose: false
-    group.home_security:
-      expose: false
-    group.living_areas_motion:
-      expose: false
-    group.my_devices:
-      expose: false
-    group.sun_room_speakers:
-      expose: false
-    group.water_sensors:
-      expose: false
-    group.weather_overview:
-      expose: false
-    switch.car_port_lights_switch:
-      name: Car Port Lights
-    light.dining_dimmer_level:
-      name: Dining Dimmer
-    switch.living_room_lamps_switch:
-      name: Living Room Lamps
-    switch.outside_front_lights_switch:
-      name: Outside Front Lights
-    switch.sun_room_speakers_switch:
-      name: Sun Room Speakers
-    light.sun_room_dimmer_level:
-      name: Sun Room Dimmer
-    switch.backyard_lights_switch:
-      name: Backyard Lights
-    group.all_lights:
-      name: All Lights
 
 binary_sensor:
   - platform: template
@@ -305,13 +240,14 @@ binary_sensor:
         friendly_name: "Basement Smoke"
         value_template: >-
           {{ states.sensor.alarm_panel_display.state|trim == "FIRE 19" }}
+  - platform: huesensor
 
 shell_command:
   zwave_stick_disco_off: echo -e -n "\x01\x08\x00\xF2\x51\x01\x00\x05\x01\x51" > /dev/ttyACM0
   zwave_stick_disco_on: echo -e -n "\x01\x08\x00\xF2\x51\x01\x01\x05\x01\x50" > /dev/ttyACM0
 
 mqtt:
-  broker: core-mosquitto
+  broker: 192.168.86.15
 
 remote:
   - platform: harmony
@@ -319,9 +255,10 @@ remote:
     host: 192.168.86.140
 
 emulated_roku:
-  host_ip: 192.168.86.15
-  listen_ports:
-    - 8060
+  servers:
+    - name: Home Assistant
+      host_ip: 192.168.86.15
+      listen_port: 8060
 
 camera:
   platform: generic
@@ -330,3 +267,45 @@ camera:
 
 senseme:
 
+hue:
+  bridges:
+    - host: 192.168.86.245
+
+rest_command:
+  perform_hassio_gdrive_backup:
+    url: http://192.168.86.15:8055/gb/doBackup
+    method: GET
+  hue_update_dynamic_scene:
+    url: !secret hue_update_dynamic_scene_api_uri
+    verify_ssl: false
+    method: PUT
+    payload: '
+      {
+        "lightstates": {
+          "5": { {{ new_lightstate }} },
+          "6": { {{ new_lightstate }} },
+          "9": { {{ new_lightstate }} },
+          "7": { {{ new_lightstate }} },
+          "8": { {{ new_lightstate }} },
+          "10": { {{ new_lightstate }} }
+        }
+      }'
+  hue_update_kitchen_group_scene_to_dynamic:
+    url: !secret hue_update_kitchen_group_action
+    verify_ssl: false
+    method: PUT
+    payload: '{ "scene": "zztOSqWv-nyhFeA" }'
+  hue_update_kitchen_group_off:
+    url: !secret hue_update_kitchen_group_action
+    verify_ssl: false
+    method: PUT
+    payload: '{ "on": false }'
+  hue_update_kitchen_group_on:
+    url: !secret hue_update_kitchen_group_action
+    verify_ssl: false
+    method: PUT
+    payload: '{ "on": true }'
+
+system_health:
+
+mobile_app:

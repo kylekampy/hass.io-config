@@ -5,14 +5,8 @@ weather_overview:
   name: Weather Overview
   control: hidden
   entities:
-    - sensor.pws_weather_1d
     - sensor.outside_temperature
     - sensor.outside_humidity
-    - sensor.pws_feelslike_f
-    - sensor.pws_temp_high_1d_f
-    - sensor.pws_temp_low_1d_f
-    - sensor.pws_temp_high_record_f
-    - sensor.pws_temp_low_record_f
     - camera.midwest_weather_radar
 
 my_devices:
@@ -27,8 +21,11 @@ living_room_lights:
   entities:
     - light.dining_dimmer_level
     - switch.living_room_lamps_switch
-    - light.living_room_mantel_lamps_switch
-    - light.living_room_light
+    - light.mantel_lamp_right
+    - light.mantel_lamp_left
+    - light.living_room_fan_light
+    - switch.balcony_christmas_lights
+    - switch.staircase_christmas_lights
 
 outside_lights:
   name: Outside Lights
@@ -47,6 +44,7 @@ all_motion:
     - binary_sensor.sun_room_motion
     - binary_sensor.upstairs_occupancy
     - binary_sensor.bedroom_occupancy
+    - binary_sensor.kitchen_motion_sensor
 
 living_areas_motion:
   name: Living Areas Motion
@@ -85,7 +83,7 @@ home_comfort:
     - sensor.bedroom_temperature
     - sensor.upstairs_temperature
     - sensor.home_humidity
-    - fan.living_room
+    - fan.living_room_fan
 
 water_sensors:
   name: Water Sensors
@@ -105,13 +103,17 @@ all_home_lights:
   entities:
     - light.dining_dimmer_level
     - switch.living_room_lamps_switch
-    - light.living_room_light
-    - switch.living_room_mantel_lamps_switch
+    - light.living_room_fan_light
+    - light.mantel_lamp_right
+    - light.mantel_lamp_left
+    - switch.balcony_christmas_lights
+    - switch.staircase_christmas_lights
     - light.sun_room_dimmer_level
     - switch.backyard_lights_switch
     - switch.office_balcony_lights_switch
     - switch.outside_front_lights_switch
     - switch.car_port_lights_switch
+    - light.kitchen
 
 all_smoke:
   name: All Smoke
@@ -134,14 +136,13 @@ all_energy:
     - sensor.weekly_usage
     - sensor.monthly_usage
     - sensor.energy_usage
-    - sensor.always_on_energy_usage
 
 system_monitor:
   name: System Monitor
   entities:
     - sensor.processor_use
     - sensor.memory_use_percent
-    - sensor.disk_use_percent_
+    - sensor.disk_use_percent
 
 ###########
 ## VIEWS ##

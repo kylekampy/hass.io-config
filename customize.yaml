@@ -52,7 +52,13 @@ lock.front_door_deadbolt_locked:
   friendly_name: Front Door Deadbolt
 binary_sensor.basement_water_sensor:
   friendly_name: Basement Water
-fan.living_room:
+fan.living_room_fan:
   friendly_name: Living Room Fan
-light.living_room_light:
+light.living_room_fan_light:
   friendly_name: Living Room Fan Light
+switch.staircase_christmas_lights:
+  friendly_name: Staircase Christmas Lights
+  icon: mdi:lightbulb
+switch.balcony_christmas_lights:
+  friendly_name: Balcony Christmas Lights
+  icon: mdi:lightbulb

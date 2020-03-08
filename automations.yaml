@@ -238,10 +238,18 @@
     entity_id: switch.living_room_lamps_switch
     to: "on"
   action:
-    - service: switch.turn_on
-      entity_id: switch.living_room_mantel_lamps_switch
     - service: light.turn_on
-      entity_id: light.living_room_light
+      entity_id: light.mantel_lamp_right
+    - service: light.turn_on
+      entity_id: light.mantel_lamp_left
+    - service: light.turn_on
+      data:
+        entity_id: light.living_room_fan_light
+        brightness: 179
+    - service: switch.turn_on
+      entity_id: switch.balcony_christmas_lights
+    - service: switch.turn_on
+      entity_id: switch.staircase_christmas_lights
 
 - alias: Living room aux lights follow living room lamps off state
   trigger:
@@ -249,10 +257,16 @@
     entity_id: switch.living_room_lamps_switch
     to: "off"
   action:
-    - service: switch.turn_off
-      entity_id: switch.living_room_mantel_lamps_switch
     - service: light.turn_off
-      entity_id: light.living_room_light
+      entity_id: light.mantel_lamp_right
+    - service: light.turn_off
+      entity_id: light.mantel_lamp_left
+    - service: light.turn_off
+      entity_id: light.living_room_fan_light
+    - service: switch.turn_off
+      entity_id: switch.balcony_christmas_lights
+    - service: switch.turn_off
+      entity_id: switch.staircase_christmas_lights
 
 ############################
 ### Harmony Home Control ###
@@ -266,7 +280,7 @@
     event_type: roku_command
     event_data:
       type: keypress
-      key: BackSpace
+      key: InstantReplay
   condition:
     - condition: time
       after: "21:00:00"
@@ -321,8 +335,10 @@
       type: keypress
       key: Left
   action:
-    - service: switch.toggle
-      entity_id: switch.living_room_mantel_lamps_switch
+    - service: light.toggle
+      entity_id: light.mantel_lamp_right
+    - service: light.toggle
+      entity_id: light.mantel_lamp_left
 
 - alias: Emulated Roku Command Right/Backyard Lights
   trigger:
@@ -335,21 +351,66 @@
     - service: switch.toggle
       entity_id: switch.backyard_lights_switch
 
-- alias: Emulated Roku Command Play/Start KEXP On Receiver
+- alias: Emulated Roku Command Play/Start KEXP On Sonos
+  trigger:
+    - platform: event
+      event_type: roku_command
+      event_data:
+        type: keypress
+        key: Play
+  action:
+    - service: media_player.select_source
+      entity_id: media_player.living_room
+      data:
+        source: "KEXP-FM"
+    - service: sonos.join
+      entity_id: media_player.kitchen
+      data:
+        master: media_player.living_room
+    - service: sonos.join
+      entity_id: media_player.sun_room
+      data:
+        master: media_player.living_room
+    - service: media_player.volume_set
+      entity_id: media_player.living_room
+      data:
+        volume_level: 0.09
+    - service: media_player.volume_set
+      entity_id: media_player.kitchen
+      data:
+        volume_level: 0.09
+    - service: media_player.volume_set
+      entity_id: media_player.sun_room
+      data:
+        volume_level: 0.09
+
+- alias: Emulated Roku Command Change Sonos to KEXP-FM
   trigger:
     platform: event
     event_type: roku_command
     event_data:
       type: keypress
-      key: Play
+      key: Info
   action:
-    - service: media_player.play_media
+    - service: media_player.select_source
+      entity_id: media_player.living_room
       data:
-        entity_id: media_player.living_room_audio
-        media_content_id: "http://live-mp3-128.kexp.org/kexp128.mp3"
-        media_content_type: "audio/mp4"
+        source: "KEXP-FM"
 
-- alias: Emulated Roku Command Back/Stop Chromecast
+- alias: Emulated Roku Command Change Sonos to indie pop rocks
+  trigger:
+    platform: event
+    event_type: roku_command
+    event_data:
+      type: keypress
+      key: Search
+  action:
+    - service: media_player.select_source
+      entity_id: media_player.living_room
+      data:
+        source: "SomaFM: Indie Pop Rocks!"
+
+- alias: Emulated Roku Command Back/Stop Sonos
   trigger:
     platform: event
     event_type: roku_command
@@ -357,9 +418,25 @@
       type: keypress
       key: Back
   action:
-    - service: media_player.media_stop
-      entity_id: media_player.living_room_audio
+    - service: media_player.media_pause
+      entity_id: media_player.living_room
+    - service: media_player.volume_set
+      entity_id: media_player.living_room
+      data:
+        volume_level: 0.20
 
+- alias: Harmony turn PowerOff to Home Assistant Default
+  trigger:
+    platform: state
+    entity_id: remote.living_room
+  condition:
+    condition: template
+    value_template: '{{ trigger.to_state.attributes.current_activity == "PowerOff" }}'
+  action:
+    service: remote.turn_on
+    entity_id: remote.living_room
+    data:
+      activity: "Home Assistant Default"
 
 ######################################
 ### Front door locking automations ###
@@ -451,18 +528,18 @@
       value_template: "{{ ((states.sensor.upstairs_temperature.state | float) - (states.sensor.home_temperature.state | float)) | abs > 3.0 }}"
   condition:
     - condition: state
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
       state: "off"
   action:
     - service: fan.turn_on
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
     - service: fan.set_speed
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
       data:
         speed: 6
     - delay: '00:15:00'
     - service: fan.turn_off
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
 
 - alias: When thermostat set to cool, set fan direction forward
   trigger:
@@ -471,7 +548,7 @@
       to: "cool" 
   action:
     - service: fan.set_direction
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
       data:
         direction: forward
 
@@ -482,7 +559,7 @@
       to: "heat"
   action:
     - service: fan.set_direction
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
       data:
         direction: reverse
 
@@ -492,14 +569,14 @@
       value_template: "{{ states.climate.home.attributes.fan == 'on' }}"
   condition:
     - condition: state
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
       state: "off"
   action:
     - service: fan.turn_on
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
     - delay: "00:15:00"
     - service: fan.turn_off
-      entity_id: fan.living_room 
+      entity_id: fan.living_room_fan 
 
 - alias: Turn off fan when nobody is home
   trigger:
@@ -510,7 +587,7 @@
         minutes: 10 
   condition:
     - condition: state
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
       state: "on"
   action:
     - service: fan.turn_off
@@ -522,12 +599,85 @@
       at: '23:00:00'
   condition:
     - condition: state
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
       state: "on"
   action:
     - service: fan.turn_off
-      entity_id: fan.living_room
+      entity_id: fan.living_room_fan
 
+#########################
+## Kitchen LED Strips ###
+#########################
+
+#### Original
+# - alias: Update Hass Dynamic Hue Scene
+#   trigger:
+#     - platform: time_pattern
+#       minutes: "/1"
+#   condition:
+#     - condition: state
+#       entity_id: light.kitchen
+#       state: "off"
+#   action:
+#     - service: rest_command.hue_update_dynamic_scene
+#       data_template:
+#         new_lightstate: >
+#           {% if now().hour >= 23 or now().hour <= 5 %} "hue": 0, "on": true, "sat": 255, "bri": 1
+#           {% elif states.binary_sensor.kitchen_motion_sensor.attributes.light_level >= 14000 %} "hue": {{ (range(0, 65535)|random) }}, "on": true, "sat": {{ (range(127, 255)|random) }}, "bri": 255
+#           {% elif states.binary_sensor.kitchen_motion_sensor.attributes.light_level >= 5000 %} "ct": 500, "on": true, "bri": 255
+#           {% else %} "ct": 500, "on": true, "bri": 10
+#           {% endif %}
+
+- alias: Kitchen LEDs to white
+  trigger:
+    - platform: sun
+      event: sunrise
+    - platform: sun
+      event: sunset
+      offset: "-01:00:00"
+  action:
+    - service: rest_command.hue_update_dynamic_scene
+      data_template:
+        new_lightstate: >
+          "ct": 500, "on": true, "bri": 255
+    - service: rest_command.hue_update_kitchen_group_scene_to_dynamic
+    - service: rest_command.hue_update_kitchen_group_off
+
+- alias: Kitchen LEDs colorful for the day
+  trigger:
+    - platform: time
+      at: "10:00:00"
+  action:
+    - service: rest_command.hue_update_dynamic_scene
+      data_template:
+        new_lightstate: >
+          "hue": {{ (range(0, 65535)|random) }}, "on": true, "sat": {{ (range(127, 255)|random) }}, "bri": 255
+    - service: rest_command.hue_update_kitchen_group_scene_to_dynamic
+    - service: rest_command.hue_update_kitchen_group_off
+
+- alias: Kitchen LEDs sunrise to dim white after 9pm
+  trigger:
+    - platform: time
+      at: "21:00:00"
+  action:
+    - service: rest_command.hue_update_dynamic_scene
+      data_template:
+        new_lightstate: >
+          "ct": 500, "on": true, "bri": 10
+    - service: rest_command.hue_update_kitchen_group_scene_to_dynamic
+    - service: rest_command.hue_update_kitchen_group_off
+
+- alias: Kitchen LEDs dim red for the night
+  trigger:
+    - platform: time
+      at: "22:30:00"
+  action:
+    - service: rest_command.hue_update_dynamic_scene
+      data_template:
+        new_lightstate: >
+          "hue": 3000, "on": true, "sat": 255, "bri": 1
+    - service: rest_command.hue_update_kitchen_group_scene_to_dynamic
+    - service: rest_command.hue_update_kitchen_group_off
 
 ##############################
 ### Janitorial Automations ###
@@ -548,3 +698,24 @@
   - service: hassio.addon_start
     data:
       addon: core_nginx_proxy
+
+
+#############################################
+### Daily snapshot backup to Google Drive ###
+#############################################
+
+- alias: Create a snapshot every day at 4am
+  trigger:
+    - platform: time
+      at: '00:04:00' # 4 am
+  action:
+    - service: hassio.snapshot_full
+      data_template:
+        name: hassio_backup_{{ now().strftime('%Y-%m-%d') }}
+
+- alias: Backup snapshot every day at 4:30am
+  trigger:
+    - platform: time
+      at: '00:04:30' # 4:30 am
+  action:
+    - service: rest_command.perform_hassio_gdrive_backup
