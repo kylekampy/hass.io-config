@@ -2,7 +2,6 @@
 ## LIVING ROOM LIGHTS ##
 ########################
 - alias: Turn on living room lights
-  hide_entity: true
   trigger:
     - platform: event
       event_type: LIVING_ROOM_LIGHTS_ON
@@ -13,7 +12,6 @@
       entity_id: light.dining_dimmer_level
 
 - alias: Turn off living room lights
-  hide_entity: true
   trigger:
     - platform: event
       event_type: LIVING_ROOM_LIGHTS_OFF
@@ -410,6 +408,23 @@
       data:
         source: "SomaFM: Indie Pop Rocks!"
 
+- alias: Emulated Roku Command Change Sonos to shuffle library
+  trigger:
+    platform: event
+    event_type: roku_command
+    event_data:
+      type: keypress
+      key: InstantReplay
+  action:
+    - service: media_player.select_source
+      entity_id: media_player.living_room
+      data:
+        source: "Songs"
+    - service: media_player.shuffle_set
+      entity_id: media_player.living_room
+      data:
+        shuffle: true
+
 - alias: Emulated Roku Command Back/Stop Sonos
   trigger:
     platform: event
@@ -442,7 +457,6 @@
 ### Front door locking automations ###
 ######################################
 - alias: Lock front door deadbolt when door closed
-  hide_entity: true
   trigger:
     - platform: event
       event_type: LOCK_FRONT_DOOR
@@ -458,7 +472,6 @@
       entity_id: lock.front_door_deadbolt_locked
 
 - alias: Notify could not lock front door because it was left open
-  hide_entity: true
   trigger:
     - platform: event
       event_type: LOCK_FRONT_DOOR
@@ -530,13 +543,16 @@
     - condition: state
       entity_id: fan.living_room_fan
       state: "off"
+    - condition: numeric_state
+      entity_id: sensor.home_temperature
+      above: 76
   action:
     - service: fan.turn_on
       entity_id: fan.living_room_fan
     - service: fan.set_speed
       entity_id: fan.living_room_fan
       data:
-        speed: 6
+        speed: 4
     - delay: '00:15:00'
     - service: fan.turn_off
       entity_id: fan.living_room_fan
@@ -571,6 +587,9 @@
     - condition: state
       entity_id: fan.living_room_fan
       state: "off"
+    - condition: numeric_state
+      entity_id: sensor.home_temperature
+      above: 76
   action:
     - service: fan.turn_on
       entity_id: fan.living_room_fan
@@ -608,25 +627,6 @@
 #########################
 ## Kitchen LED Strips ###
 #########################
-
-#### Original
-# - alias: Update Hass Dynamic Hue Scene
-#   trigger:
-#     - platform: time_pattern
-#       minutes: "/1"
-#   condition:
-#     - condition: state
-#       entity_id: light.kitchen
-#       state: "off"
-#   action:
-#     - service: rest_command.hue_update_dynamic_scene
-#       data_template:
-#         new_lightstate: >
-#           {% if now().hour >= 23 or now().hour <= 5 %} "hue": 0, "on": true, "sat": 255, "bri": 1
-#           {% elif states.binary_sensor.kitchen_motion_sensor.attributes.light_level >= 14000 %} "hue": {{ (range(0, 65535)|random) }}, "on": true, "sat": {{ (range(127, 255)|random) }}, "bri": 255
-#           {% elif states.binary_sensor.kitchen_motion_sensor.attributes.light_level >= 5000 %} "ct": 500, "on": true, "bri": 255
-#           {% else %} "ct": 500, "on": true, "bri": 10
-#           {% endif %}
 
 - alias: Kitchen LEDs to white
   trigger:

@@ -3,7 +3,7 @@
 ############
 weather_overview:
   name: Weather Overview
-  control: hidden
+  # control: hidden
   entities:
     - sensor.outside_temperature
     - sensor.outside_humidity
@@ -11,7 +11,7 @@ weather_overview:
 
 my_devices:
   name: My Devices
-  control: hidden
+  # control: hidden
   entities:
     - device_tracker.amanda
     - device_tracker.kyle
@@ -37,7 +37,7 @@ outside_lights:
 
 all_motion:
   name: All Motion
-  control: hidden
+  # control: hidden
   entities:
     - binary_sensor.foyer_motion
     - binary_sensor.home_occupancy
@@ -48,7 +48,7 @@ all_motion:
 
 living_areas_motion:
   name: Living Areas Motion
-  control: hidden
+  # control: hidden
   entities:
     - binary_sensor.foyer_motion
     - binary_sensor.home_occupancy
@@ -57,7 +57,7 @@ living_areas_motion:
 
 all_doors:
   name: All Doors
-  control: hidden
+  # control: hidden
   entities:
     - binary_sensor.front_door
     - binary_sensor.garage_door
@@ -68,7 +68,7 @@ all_doors:
 
 home_security:
   name: Home Security System
-  control: hidden
+  # control: hidden
   entities:
     - lock.front_door_deadbolt_locked
     - alarm_control_panel.alarm_panel
@@ -76,7 +76,7 @@ home_security:
 
 home_comfort:
   name: Home Comfort
-  control: hidden
+  # control: hidden
   entities:
     - climate.home
     - sensor.home_temperature
@@ -87,13 +87,13 @@ home_comfort:
 
 water_sensors:
   name: Water Sensors
-  control: hidden
+  # control: hidden
   entities:
     - binary_sensor.basement_water_sensor
 
 sun_room_music:
   name: Sun Room Music
-  control: hidden
+  # control: hidden
   entities:
     - script.sun_room_music
     - switch.sun_room_speakers_switch
@@ -148,7 +148,7 @@ system_monitor:
 ## VIEWS ##
 ###########
 default_view:
-  view: true
+  # view: true
   icon: mdi:home
   entities:
     - group.all_alerts
@@ -165,7 +165,7 @@ default_view:
     - group.system_monitor
 
 media_view:
-  view: true
+  # view: true
   icon: mdi:music
   entities:
     - group.sun_room_music
@@ -175,7 +175,7 @@ media_view:
     - media_player.home_group
 
 automation_view:
-  view: true
+  # view: true
   icon: mdi:script
   entities:
     - group.all_automations

@@ -10,10 +10,13 @@ homeassistant:
   unit_system: imperial
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Chicago
-  whitelist_external_dirs:
-    - '/tmp'
   # Customization file
   customize: !include customize.yaml
+  internal_url: !secret base_url
+  external_url: !secret base_url
+
+logger:
+  default: warning
 
 # Enables the frontend
 frontend:
@@ -23,9 +26,6 @@ config:
 
 http:
   server_port: 8123
-  base_url: !secret base_url
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
   ip_ban_enabled: true
   login_attempts_threshold: 3
 
@@ -42,40 +42,14 @@ updater:
 discovery:
 
 recorder:
-  purge_keep_days: 4
-  include:
-    entities:
-      - sensor.alarm_panel_display
-      - sensor.home_humidity
-      - sensor.home_temperature
-      - sensor.bedroom_temperature
-      - sensor.upstairs_temperature
-      - sensor.awair_co2
-      - sensor.awair_humidity
-      - sensor.awair_pm2_5
-      - sensor.awair_score
-      - sensor.awair_temperature
-      - sensor.awair_voc
-    domains:
-      - alarm_control_panel
-      - alert
-      - binary_sensor
-      - device_tracker
-      - fan
-      - light
-      - lock
-      - switch
+  db_url: !secret db_url 
+  purge_keep_days: 14
 
 history:
 logbook:
 
 # Track the sun
 sun:
-
-# Text to speech
-tts:
-  - platform: google_translate
-    service_name: google_say
 
 # Cloud
 cloud:
@@ -85,18 +59,10 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 alert: !include alerts.yaml
 
-# Enable configurator in frontend
-panel_iframe:
-  configurator:
-    title: Configurator
-    icon: mdi:wrench
-    # Intentionally not port forwarded or exposed, so only locally accessible
-    url: https://192.168.86.15:3218
-
 alarmdecoder:
   device:
     type: socket
-    host: 192.168.86.12
+    host: 192.168.1.27
     port: 10000
   panel_display: on
   zones:
@@ -145,9 +111,6 @@ alarmdecoder:
       type: 'smoke'
       rfid: '0119565'
 
-ecobee:
-  api_key: !secret ecobee_api_key
-  
 zwave:
   usb_path: /dev/ttyACM0
   network_key: !secret zwave_network_key
@@ -156,17 +119,6 @@ zwave:
 weather:
   - platform: darksky
     api_key: !secret dark_sky_secret
-
-sensor:
-  - platform: systemmonitor
-    resources:
-      - type: disk_use_percent
-        arg: /
-      - type: memory_use_percent
-      - type: processor_use
-      - type: last_boot
-  - platform: awair
-    access_token: !secret awair_access_token
 
 sense:
   email: !secret sense_email
@@ -195,27 +147,10 @@ notify:
       - service: twilio_call
         data:
           target: !secret kyle_phone
-  - name: Push Notification
-    platform: html5
-    gcm_api_key: !secret gcm_api_key
-    gcm_sender_id: !secret gcm_sender_id
+          # TODO - mobile device notification
 
-google_domains:
-  domain: !secret google_ddns_domain
-  username: !secret google_ddns_username
-  password: !secret google_ddns_password
- 
 device_tracker:
   - platform: bluetooth_tracker
-  - platform: huesensor
-
-media_player:
-  - platform: spotify
-    client_id: !secret spotify_client_id
-    client_secret: !secret spotify_client_secret
-  - platform: samsungtv
-    host: 192.168.86.121
-    port: 8001
 
 binary_sensor:
   - platform: template
@@ -235,7 +170,6 @@ binary_sensor:
         friendly_name: "Basement Smoke"
         value_template: >-
           {{ states.sensor.alarm_panel_display.state|trim == "FIRE 19" }}
-  - platform: huesensor
 
 shell_command:
   zwave_stick_disco_off: echo -e -n "\x01\x08\x00\xF2\x51\x01\x00\x05\x01\x51" > /dev/ttyACM0
@@ -244,12 +178,12 @@ shell_command:
 remote:
   - platform: harmony
     name: Living Room
-    host: 192.168.86.140
+    host: 192.168.1.20
 
 emulated_roku:
   servers:
     - name: Home Assistant
-      host_ip: 192.168.86.15
+      host_ip: 192.168.1.6
       listen_port: 8060
 
 camera:
@@ -257,16 +191,7 @@ camera:
   still_image_url: http://images.intellicast.com/WxImages/RadarLoop/stc_None_anim.gif
   name: Midwest Weather Radar
 
-senseme:
-
-hue:
-  bridges:
-    - host: 192.168.86.245
-
 rest_command:
-  perform_hassio_gdrive_backup:
-    url: http://192.168.86.15:8055/gb/doBackup
-    method: GET
   hue_update_dynamic_scene:
     url: !secret hue_update_dynamic_scene_api_uri
     verify_ssl: false

@@ -13,8 +13,6 @@
                                 "light.living_room_fan_light",
                                 "light.mantel_lamp_right",
                                 "light.mantel_lamp_left",
-                                "switch.balcony_christmas_lights",
-                                "switch.staircase_christmas_lights",
                                 "light.sun_room_dimmer_level",
                                 "switch.backyard_lights_switch",
                                 "switch.office_balcony_lights_switch",
@@ -52,13 +50,13 @@
                                     "entity": "fan.living_room_fan"
                                 },
                                 {
-                                    "entity": "sensor.awair_score"
+                                    "entity": "sensor.awair_awair_score"
                                 },
                                 {
-                                    "entity": "sensor.awair_co2"
+                                    "entity": "sensor.awair_carbon_dioxide"
                                 },
                                 {
-                                    "entity": "sensor.awair_voc"
+                                    "entity": "sensor.awair_volatile_organic_compounds"
                                 },
                                 {
                                     "entity": "sensor.awair_pm2_5"
@@ -124,7 +122,7 @@
                                 "binary_sensor.sun_room_motion",
                                 "binary_sensor.upstairs_occupancy",
                                 "binary_sensor.bedroom_occupancy",
-                                "binary_sensor.kitchen_motion_sensor"
+                                "binary_sensor.kitchen_sensor_motion"
                             ],
                             "show_header_toggle": false,
                             "title": "All Motion",
@@ -161,190 +159,52 @@
                         },
                         {
                             "entities": [
-                                "sensor.processor_use",
-                                "sensor.memory_use_percent",
-                                "sensor.disk_use_percent"
+                                {
+                                    "entity": "sensor.home_temperature"
+                                },
+                                {
+                                    "entity": "sensor.bedroom_temperature"
+                                },
+                                {
+                                    "entity": "sensor.upstairs_temperature"
+                                },
+                                {
+                                    "entity": "sensor.home_humidity"
+                                },
+                                {
+                                    "entity": "sensor.awair_humidity"
+                                },
+                                {
+                                    "entity": "sensor.awair_carbon_dioxide"
+                                },
+                                {
+                                    "entity": "sensor.awair_volatile_organic_compounds"
+                                },
+                                {
+                                    "entity": "sensor.awair_pm2_5"
+                                }
                             ],
-                            "show_header_toggle": false,
-                            "title": "System Monitor",
-                            "type": "entities"
+                            "hours_to_show": 24,
+                            "refresh_interval": 0,
+                            "title": "Home Comfort History",
+                            "type": "history-graph"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.energy_usage"
+                                }
+                            ],
+                            "hours_to_show": 24,
+                            "refresh_interval": 0,
+                            "title": "Energy Usage",
+                            "type": "history-graph"
                         }
                     ],
                     "icon": "mdi:home",
+                    "panel": false,
                     "path": "default_view",
                     "title": "default_view"
-                },
-                {
-                    "badges": [],
-                    "cards": [
-                        {
-                            "entities": [
-                                "script.sun_room_music",
-                                "switch.sun_room_speakers_switch"
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Sun Room Music",
-                            "type": "entities"
-                        },
-                        {
-                            "entity": "media_player.spotify",
-                            "type": "media-control"
-                        },
-                        {
-                            "entity": "media_player.living_room_audio",
-                            "type": "media-control"
-                        },
-                        {
-                            "entity": "media_player.home_group",
-                            "type": "media-control"
-                        }
-                    ],
-                    "icon": "mdi:music",
-                    "path": "media_view",
-                    "title": "media_view"
-                },
-                {
-                    "badges": [],
-                    "cards": [
-                        {
-                            "entities": [
-                                {
-                                    "entity": "automation.emulated_roku_command_back_stop_chromecast"
-                                },
-                                {
-                                    "entity": "automation.emulated_roku_command_down_dining_dimmer"
-                                },
-                                {
-                                    "entity": "automation.emulated_roku_command_left_living_room_mantel_lamps"
-                                },
-                                {
-                                    "entity": "automation.emulated_roku_command_play_start_kexp_on_receiver"
-                                },
-                                {
-                                    "entity": "automation.emulated_roku_command_right_backyard_lights"
-                                },
-                                {
-                                    "entity": "automation.emulated_roku_command_up_living_room_lamps"
-                                },
-                                {
-                                    "entity": "automation.end_sunset_outside_front_lights"
-                                },
-                                {
-                                    "entity": "automation.lights_on_when_arriving_connected"
-                                },
-                                {
-                                    "entity": "automation.lights_on_when_arriving_door"
-                                },
-                                {
-                                    "entity": "automation.living_room_aux_lights_follow_living_room_lamps_off_state"
-                                },
-                                {
-                                    "entity": "automation.living_room_aux_lights_follow_living_room_lamps_on_state"
-                                },
-                                {
-                                    "entity": "automation.lock_front_door_at_10_pm"
-                                },
-                                {
-                                    "entity": "automation.lock_front_door_deadbolt_when_door_closed"
-                                },
-                                {
-                                    "entity": "automation.lock_front_door_when_nobody_is_home"
-                                },
-                                {
-                                    "entity": "automation.morning_lights"
-                                },
-                                {
-                                    "entity": "automation.notify_could_not_lock_front_door_because_it_was_left_open"
-                                },
-                                {
-                                    "entity": "automation.office_balcony_lights_follow_backyard_lights_off_state"
-                                },
-                                {
-                                    "entity": "automation.office_balcony_lights_follow_backyard_lights_on_state"
-                                },
-                                {
-                                    "entity": "automation.prepare_lights_for_going_to_bed"
-                                },
-                                {
-                                    "entity": "automation.renew_let_s_encrypt_certificate"
-                                },
-                                {
-                                    "entity": "automation.sun_room_motion_lights"
-                                },
-                                {
-                                    "entity": "automation.sunset_lamps_on_when_home"
-                                },
-                                {
-                                    "entity": "automation.sunset_living_room_lights_on_when_home"
-                                },
-                                {
-                                    "entity": "automation.sunset_outside_front_lights"
-                                },
-                                {
-                                    "entity": "automation.turn_off_fan_when_left_on_late_at_night"
-                                },
-                                {
-                                    "entity": "automation.turn_off_fan_when_nobody_is_home"
-                                },
-                                {
-                                    "entity": "automation.turn_off_left_on_backyard_lights"
-                                },
-                                {
-                                    "entity": "automation.turn_off_left_on_office_balcony_lights"
-                                },
-                                {
-                                    "entity": "automation.turn_off_living_room_lights"
-                                },
-                                {
-                                    "entity": "automation.turn_on_backyard_lights_for_door"
-                                },
-                                {
-                                    "entity": "automation.turn_on_living_room_lights"
-                                },
-                                {
-                                    "entity": "automation.warn_front_door_deadbolt_low_battery"
-                                },
-                                {
-                                    "entity": "automation.warn_front_door_unlocked_by_guest_code"
-                                },
-                                {
-                                    "entity": "automation.when_hvac_fan_running_turn_on_fan"
-                                },
-                                {
-                                    "entity": "automation.when_temperature_between_upstairs_and_downstairs_differs_turn_on_fan_for_30_minutes"
-                                },
-                                {
-                                    "entity": "automation.when_thermostat_set_to_cool_set_fan_direction_forward"
-                                },
-                                {
-                                    "entity": "automation.when_thermostate_set_to_heat_set_fan_direction_reverse"
-                                },
-                                {
-                                    "entity": "automation.create_a_snapshot_every_day_at_4am"
-                                },
-                                {
-                                    "entity": "automation.backup_snapshot_every_day_at_4_30am"
-                                },
-                                {
-                                    "entity": "automation.update_hass_dynamic_hue_scene"
-                                }
-                            ],
-                            "show_header_toggle": true,
-                            "title": "All Automations",
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
-                                "script.sun_room_music"
-                            ],
-                            "show_header_toggle": true,
-                            "title": "All Scripts",
-                            "type": "entities"
-                        }
-                    ],
-                    "icon": "mdi:script",
-                    "path": "automation_view",
-                    "title": "automation_view"
                 }
             ]
         }
