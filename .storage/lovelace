@@ -1,4 +1,6 @@
 {
+    "version": 1,
+    "key": "lovelace",
     "data": {
         "config": {
             "title": "Home",
@@ -8,17 +10,39 @@
                     "cards": [
                         {
                             "entities": [
-                                "light.dining_dimmer_level",
-                                "switch.living_room_lamps_switch",
-                                "light.living_room_fan_light",
-                                "light.mantel_lamp_right",
-                                "light.mantel_lamp_left",
-                                "light.sun_room_dimmer_level",
-                                "switch.backyard_lights_switch",
-                                "switch.office_balcony_lights_switch",
-                                "switch.outside_front_lights_switch",
-                                "switch.car_port_lights_switch",
-                                "light.kitchen"
+                                {
+                                    "entity": "light.dining_dimmer_level"
+                                },
+                                {
+                                    "entity": "switch.living_room_lamps_switch"
+                                },
+                                {
+                                    "entity": "light.living_room_fan_light"
+                                },
+                                {
+                                    "entity": "light.mantel_lamp_right"
+                                },
+                                {
+                                    "entity": "light.mantel_lamp_left"
+                                },
+                                {
+                                    "entity": "light.sun_room_dimmer_level"
+                                },
+                                {
+                                    "entity": "switch.backyard_lights_switch"
+                                },
+                                {
+                                    "entity": "switch.office_balcony_lights_switch"
+                                },
+                                {
+                                    "entity": "switch.outside_front_lights_switch"
+                                },
+                                {
+                                    "entity": "switch.car_port_lights_switch"
+                                },
+                                {
+                                    "entity": "group.kitchen_cabinet_lights"
+                                }
                             ],
                             "show_header_toggle": false,
                             "title": "All Lights",
@@ -95,8 +119,12 @@
                         },
                         {
                             "entities": [
-                                "device_tracker.amanda",
-                                "device_tracker.kyle"
+                                {
+                                    "entity": "person.kyle"
+                                },
+                                {
+                                    "entity": "person.amanda"
+                                }
                             ],
                             "show_header_toggle": false,
                             "title": "My Devices",
@@ -208,7 +236,5 @@
                 }
             ]
         }
-    },
-    "key": "lovelace",
-    "version": 1
+    }
 }

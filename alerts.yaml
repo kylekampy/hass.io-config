@@ -7,8 +7,6 @@ basement_flood:
   can_acknowledge: true
   notifiers:
     - contact_kyle
-    - push_notification
-    - mobile_app_pixel_3
 
 fire:
   name: Fire detected
@@ -19,8 +17,6 @@ fire:
   can_acknowledge: true
   notifiers:
     - contact_kyle
-    - push_notification
-    - mobile_app_pixel_3
 
 alarm_triggered:
   name: Alarm triggered
@@ -31,5 +27,3 @@ alarm_triggered:
   can_acknowledge: true
   notifiers:
     - contact_kyle
-    - push_notification
-    - mobile_app_pixel_3

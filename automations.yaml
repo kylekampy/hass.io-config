@@ -648,12 +648,14 @@
     - platform: time
       at: "10:00:00"
   action:
-    - service: rest_command.hue_update_dynamic_scene
+    - service: rest_command.hue_update_dynamic_scene_colors
       data_template:
-        new_lightstate: >
-          "hue": {{ (range(0, 65535)|random) }}, "on": true, "sat": {{ (range(127, 255)|random) }}, "bri": 255
+        hue: '{{ (range(0, 65535)|random) }}'
+        sat: '{{ (range(127, 255)|random) }}'
+        # new_lightstate: >
+          # "hue": {{ (range(0, 65535)|random) }}, "on": true, "sat": {{ (range(127, 255)|random) }}, "bri": 255
     - service: rest_command.hue_update_kitchen_group_scene_to_dynamic
-    - service: rest_command.hue_update_kitchen_group_off
+    # - service: rest_command.hue_update_kitchen_group_off
 
 - alias: Kitchen LEDs sunrise to dim white after 9pm
   trigger:

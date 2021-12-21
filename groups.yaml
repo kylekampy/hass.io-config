@@ -3,7 +3,6 @@
 ############
 weather_overview:
   name: Weather Overview
-  # control: hidden
   entities:
     - sensor.outside_temperature
     - sensor.outside_humidity
@@ -11,10 +10,9 @@ weather_overview:
 
 my_devices:
   name: My Devices
-  # control: hidden
   entities:
-    - device_tracker.amanda
-    - device_tracker.kyle
+    - device_tracker.amandas_pixel
+    - device_tracker.kyles_iphone
 
 living_room_lights:
   name: Living Room Lights
@@ -27,6 +25,16 @@ living_room_lights:
     - switch.balcony_christmas_lights
     - switch.staircase_christmas_lights
 
+kitchen_cabinet_lights:
+  name: Kitchen Cabinet Lights
+  entities:
+    - light.kitchen_fridge_cabinets_lower
+    - light.kitchen_fridge_cabinets_upper
+    - light.kitchen_sink_cabinets_lower
+    - light.kitchen_sink_cabinets_upper
+    - light.kitchen_stove_cabinets_lower
+    - light.kitchen_stove_cabinets_upper
+
 outside_lights:
   name: Outside Lights
   entities:
@@ -37,7 +45,6 @@ outside_lights:
 
 all_motion:
   name: All Motion
-  # control: hidden
   entities:
     - binary_sensor.foyer_motion
     - binary_sensor.home_occupancy
@@ -48,7 +55,6 @@ all_motion:
 
 living_areas_motion:
   name: Living Areas Motion
-  # control: hidden
   entities:
     - binary_sensor.foyer_motion
     - binary_sensor.home_occupancy
@@ -57,7 +63,6 @@ living_areas_motion:
 
 all_doors:
   name: All Doors
-  # control: hidden
   entities:
     - binary_sensor.front_door
     - binary_sensor.garage_door
@@ -68,7 +73,6 @@ all_doors:
 
 home_security:
   name: Home Security System
-  # control: hidden
   entities:
     - lock.front_door_deadbolt_locked
     - alarm_control_panel.alarm_panel
@@ -76,7 +80,6 @@ home_security:
 
 home_comfort:
   name: Home Comfort
-  # control: hidden
   entities:
     - climate.home
     - sensor.home_temperature
@@ -87,13 +90,11 @@ home_comfort:
 
 water_sensors:
   name: Water Sensors
-  # control: hidden
   entities:
     - binary_sensor.basement_water_sensor
 
 sun_room_music:
   name: Sun Room Music
-  # control: hidden
   entities:
     - script.sun_room_music
     - switch.sun_room_speakers_switch
@@ -114,6 +115,12 @@ all_home_lights:
     - switch.outside_front_lights_switch
     - switch.car_port_lights_switch
     - light.kitchen
+    - light.kitchen_fridge_cabinets_lower
+    - light.kitchen_fridge_cabinets_upper
+    - light.kitchen_sink_cabinets_lower
+    - light.kitchen_sink_cabinets_upper
+    - light.kitchen_stove_cabinets_lower
+    - light.kitchen_stove_cabinets_upper
 
 all_smoke:
   name: All Smoke

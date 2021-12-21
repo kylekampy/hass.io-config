@@ -27,7 +27,11 @@ config:
 http:
   server_port: 8123
   ip_ban_enabled: true
-  login_attempts_threshold: 3
+  login_attempts_threshold: 10
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.17.0.7
+    - ::1
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -141,16 +145,16 @@ notify:
   - name: Contact Kyle
     platform: group
     services:
+      - service: mobile_app_kyles_iphone
       - service: twilio
         data:
           target: !secret kyle_phone
       - service: twilio_call
         data:
           target: !secret kyle_phone
-          # TODO - mobile device notification
 
-device_tracker:
-  - platform: bluetooth_tracker
+# device_tracker:
+#   - platform: bluetooth_tracker
 
 binary_sensor:
   - platform: template
@@ -192,6 +196,21 @@ camera:
   name: Midwest Weather Radar
 
 rest_command:
+  hue_update_dynamic_scene_colors:
+    url: !secret hue_update_dynamic_scene_api_uri
+    verify_ssl: false
+    method: PUT
+    payload: '
+      {
+        "lightstates": {
+          "5": { "hue": {{ hue }}, "on": true, "sat": {{ sat }}, "bri": 255 },
+          "6": { "hue": {{ hue }}, "on": true, "sat": {{ sat }}, "bri": 255 },
+          "9": { "hue": {{ hue }}, "on": true, "sat": {{ sat }}, "bri": 255 },
+          "7": { "hue": {{ (((hue|int) + 10923) % 65535) | string }}, "on": true, "sat": {{ sat }}, "bri": 255 },
+          "8": { "hue": {{ (((hue|int) + 10923) % 65535) | string }}, "on": true, "sat": {{ sat }}, "bri": 255 },
+          "10": { "hue": {{ (((hue|int) + 10923) % 65535) | string }}, "on": true, "sat": {{ sat }}, "bri": 255 }
+        }
+      }'
   hue_update_dynamic_scene:
     url: !secret hue_update_dynamic_scene_api_uri
     verify_ssl: false
